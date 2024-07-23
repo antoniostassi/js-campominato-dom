@@ -1,11 +1,14 @@
 
+let gameStatus = true;
+let clickCount = 0;
+let bombsContainer = [];
+
 const start = document.getElementById("start");
 const container = document.querySelector(".container");
-let clickCount = 1;
-const bombsContainer = [];
-let gameStatus = true;
 
 start.addEventListener("click", function() {
+
+    resetVariables();
 
     const difficulty = document.getElementById("difficulty").value;
     container.innerHTML = "";
@@ -14,7 +17,6 @@ start.addEventListener("click", function() {
     for (let i=0; i < difficulty; i++) {
         createNewElement("div", "square", container, "my-col-"+difficulty, i+1, "new-bg-square");
     }
-
 
 });
 
@@ -28,19 +30,24 @@ function createNewElement(tagElement, classToAdd, appendTag, gameDifficulty, num
     newElement.innerHTML = numberToDisplay;
 
     newElement.addEventListener("click", function() {
-    if (gameStatus) {
-        
-        newElement.classList.add(toggleClass);
-        if (bombsContainer.includes(numberToDisplay)) {
-            alert("HAI PERSO! PUNTEGGIO: " +clickCount);
-            gameStatus = !gameStatus;
-        } else if(clickCount == (gameDifficulty-90)) { 
-            alert("HAI VINTO! PUNTEGGIO: " + clickCount);
-            gameStatus = !gameStatus;
-        } else {
-            clickCount++;
+
+        if (gameStatus) {
+            if (bombsContainer.includes(numberToDisplay)) {
+                alert("HAI PERSO! PUNTEGGIO: " + clickCount);
+                newElement.classList.add("new-bg-lose");
+                gameStatus = !gameStatus;
+
+            } else if(clickCount == (gameDifficulty-16)) { 
+                alert("HAI VINTO! PUNTEGGIO: " + clickCount);
+                gameStatus = !gameStatus;
+
+            } else if(!newElement.classList.contains(toggleClass)) {
+                clickCount++;
+                newElement.classList.add(toggleClass);
+            }
+            console.log(clickCount);
+
         }
-    }
         
     });
 
@@ -61,4 +68,11 @@ function generateBombs(difficulty) {
     }
 
     console.log(bombsContainer);
+}
+
+
+function resetVariables() {
+    clickCount = 0;
+    gameStatus = true;
+    bombsContainer = [];
 }
