@@ -56,18 +56,15 @@ function createNewElement(tagElement, classToAdd, appendTag, gameDifficulty, num
 
 function generateBombs(difficulty) {
 
-    for(let i=0; i<16; i) {
-
+    let i = 0;
+    while (i < 16) {
         let num = Math.floor(Math.random() * difficulty) + 1;
-
         if (!bombsContainer.includes(num)) {
             bombsContainer.push(num);
             i++;
         }
-
     }
-
-    console.log(bombsContainer);
+    // console.log(bombsContainer);
 }
 
 
